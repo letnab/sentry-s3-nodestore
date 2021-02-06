@@ -12,6 +12,7 @@ import simplejson
 from base64 import urlsafe_b64encode
 from time import sleep
 from uuid import uuid4
+import zlib
 
 import boto3
 
@@ -75,6 +76,20 @@ class S3NodeStorage(NodeStorage):
         """
         data = simplejson.dumps(data)
         retry(self.max_retries, self.client.put_object, Body=data, Bucket=self.bucket_name, Key=id)
+
+    def _get_bytes(self, id):
+        """
+        >>> nodestore._get_bytes('key1')
+        b'{"message": "hello world"}'
+        """
+        result = retry(self.max_retries, self.client.get_object, Bucket=self.bucket_name, Key=id)
+        return zlib.decompress(result['Body'].read())
+
+    def _set_bytes(self, id, data, ttl=None):
+        """
+        >>> nodestore.set('key1', b"{'foo': 'bar'}")
+        """
+        retry(self.max_retries, self.client.put_object, Body=zlib.compress(data), Bucket=self.bucket_name, Key=id)
 
     def generate_id(self):
         return urlsafe_b64encode(uuid4().bytes)

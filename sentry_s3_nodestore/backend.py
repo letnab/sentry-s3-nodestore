@@ -62,21 +62,6 @@ class S3NodeStorage(NodeStorage):
             'Objects': [{'Key': id} for id in id_list]
         })
 
-    def get(self, id):
-        """
-        >>> data = nodestore.get('key1')
-        >>> print data
-        """
-        result = retry(self.max_retries, self.client.get_object, Bucket=self.bucket_name, Key=id)
-        return simplejson.loads(result['Body'].read())
-
-    def set(self, id, data):
-        """
-        >>> nodestore.set('key1', {'foo': 'bar'})
-        """
-        data = simplejson.dumps(data)
-        retry(self.max_retries, self.client.put_object, Body=data, Bucket=self.bucket_name, Key=id)
-
     def _get_bytes(self, id):
         """
         >>> nodestore._get_bytes('key1')
