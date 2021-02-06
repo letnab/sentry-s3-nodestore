@@ -1,11 +1,11 @@
 language: python
-python: 2.7
+python: 3.6
 cache:
   directories:
     - .pip_download_cache
-    - "$HOME/virtualenv/python2.7.9"
+    - "$HOME/virtualenv/python3.6.12"
 env:
   matrix:
-    - TOXENV=py27
+    - TOXENV=py36
 install: pip install tox
 script: tox
