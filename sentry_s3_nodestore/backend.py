@@ -28,14 +28,6 @@ def retry(attempts, func, *args, **kwargs):
             raise
     raise
 
-SENTRY_NODESTORE_OPTIONS = {
-    'bucket_name': 'sentry-nodestore-13e15550-9a2e-4910-98c5-b0cc76c60f04',
-    'region': 'us-west-1',
-    'endpoint':'https://s3.royalroad.com',
-    'aws_access_key_id': '***REMOVED***',
-    'aws_secret_access_key': '***REMOVED***'
-}
-
 class S3NodeStorage(NodeStorage):
 
     def __init__(self, bucket_name=None, endpoint=None, region='eu-west-1', aws_access_key_id=None, aws_secret_access_key=None, max_retries=3):
