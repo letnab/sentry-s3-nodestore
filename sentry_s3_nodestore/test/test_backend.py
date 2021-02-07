@@ -15,7 +15,7 @@ class S3NodeStoreTestCase(unittest.TestCase):
         conn = boto.connect_s3()
         conn.create_bucket('test')
 
-        self.ns = S3NodeStorage(bucket_name='test',endpoint='https://s3.royalroad.com',aws_access_key_id='***REMOVED***', aws_secret_access_key='***REMOVED***')
+        self.ns = S3NodeStorage(bucket_name='test',endpoint='',aws_access_key_id='', aws_secret_access_key='')
 
     def tearDown(self):
         self.mock_s3.stop()
