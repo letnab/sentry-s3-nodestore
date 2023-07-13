@@ -59,8 +59,8 @@ class S3NodeStorage(NodeStorage):
         >>> nodestore._get_bytes('key1')
         b'{"message": "hello world"}'
         """
-        result = retry(self.max_retries, self.client.get_object, Bucket=self.bucket_name, Key=id)
         try:
+            result = retry(self.max_retries, self.client.get_object, Bucket=self.bucket_name, Key=id)
             return zlib.decompress(result['Body'].read())
         except:
             return None
