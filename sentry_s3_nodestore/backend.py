@@ -60,7 +60,10 @@ class S3NodeStorage(NodeStorage):
         b'{"message": "hello world"}'
         """
         result = retry(self.max_retries, self.client.get_object, Bucket=self.bucket_name, Key=id)
-        return zlib.decompress(result['Body'].read())
+        try:
+            return zlib.decompress(result['Body'].read())
+        except:
+            return None
 
     def _set_bytes(self, id, data, ttl=None):
         """
